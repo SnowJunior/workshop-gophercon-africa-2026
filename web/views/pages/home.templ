@@ -42,15 +42,7 @@ templ Home(sightings []sighting.Sighting) {
 				</ul>
 			}
 		</section>
-		if len(sightings) > 0 {
-			<section class="section section--globe" id="globe" aria-labelledby="globe-title">
-				<header class="section__head reveal">
-					<p class="section__kicker">03</p>
-					<h2 class="section__title" id="globe-title">Around the globe<span class="slide__dot" aria-hidden="true"></span></h2>
-				</header>
-				@components.Globe(components.NewGlobeData(sightings))
-			</section>
-		}
+
 	}
 }
 

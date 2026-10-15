@@ -17,7 +17,7 @@ function read() {
 	}
 }
 
-mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
+mount('globe', function ({ THREE, scene, camera, canvas, colour, still, invalidate }) {
 	let clock = 0;
 	let idleSince = 0;
 	const data = read();
@@ -34,10 +34,37 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 	const controls = new OrbitControls(camera, canvas);
 	controls.enableZoom = false;
 	controls.enablePan = false;
-	controls.enableDamping = true;
+	controls.enableDamping = !still;
 	controls.rotateSpeed = 0.55;
 	controls.autoRotate = !still;
-	controls.autoRotateSpeed = 0.6;
+	controls.autoRotateSpeed = 0.8;
+	let paused = still;
+	let inspecting = false;
+	let dragging = false;
+	const rotation = document.querySelector('[data-rotation]');
+	function rotationLabel() {
+		rotation.textContent = paused ? 'Resume rotation' : 'Pause rotation';
+		rotation.setAttribute('aria-pressed', String(paused));
+	}
+	rotationLabel();
+	if (still) {
+		rotation.textContent = 'Reduced motion enabled';
+		rotation.disabled = true;
+	}
+	rotation.addEventListener('click', () => {
+		paused = !paused;
+		controls.autoRotate = !paused && !inspecting;
+		rotationLabel();
+	});
+	controls.addEventListener('change', invalidate);
+	document.addEventListener('globe:view', (e) => {
+		inspecting = e.detail.details;
+		controls.enabled = !inspecting;
+		controls.autoRotate = !still && !paused && !inspecting;
+		if (!inspecting) target = null;
+		if (tip) tip.hidden = true;
+		invalidate();
+	});
 
 	// The sea, and a grid of latitudes and longitudes that shows even if the land map can't load.
 	scene.add(new THREE.Mesh(
@@ -119,6 +146,7 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 			alphaTest: 0.4,
 			depthWrite: false,
 		})));
+		invalidate();
 	};
 	img.src = LAND;
 
@@ -219,6 +247,8 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 		target = toVec(lat, lng).normalize().multiplyScalar(camera.position.length());
 		controls.autoRotate = false;
 		idleSince = clock;
+		if (still) { camera.position.copy(target); target = null; controls.update(); }
+		invalidate();
 	}
 
 	// Hover shows the place; a click that wasn't a drag picks it.
@@ -259,15 +289,24 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 	let down = null;
 	canvas.addEventListener('pointerdown', function (e) {
 		down = { x: e.clientX, y: e.clientY };
+		dragging = true;
 		controls.autoRotate = false;
 		target = null;
 		idleSince = clock;
+		if (still) { camera.position.copy(target); target = null; controls.update(); }
+		invalidate();
 	});
 	canvas.addEventListener('pointerup', function (e) {
-		if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) return;
+		const start = down;
+		down = null;
+		dragging = false;
+		idleSince = clock;
+		if (!start || Math.hypot(e.clientX - start.x, e.clientY - start.y) > 6) return;
 		const found = spotAt(e);
 		if (found) document.dispatchEvent(new CustomEvent('globe:pick', { detail: { spot: found.spot } }));
 	});
+
+	canvas.addEventListener('pointercancel', () => { down = null; dragging = false; idleSince = clock; });
 
 	document.addEventListener('globe:focus', function (e) {
 		const spot = spots[e.detail.spot];
@@ -289,9 +328,11 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 		} else if (latest) {
 			focus(latest.lat, latest.lng);
 		}
+		if (still && target) { camera.position.copy(target); target = null; controls.update(); }
+		invalidate();
 	});
 
-	return function (time) {
+	return function (time, delta) {
 		clock = time;
 
 		if (target) {
@@ -299,10 +340,10 @@ mount('globe', function ({ THREE, scene, camera, canvas, colour, still }) {
 			camera.position.lerp(target, 0.06).setLength(len);
 			if (camera.position.distanceTo(target) < 0.01) target = null;
 		}
-		if (!still && !controls.autoRotate && !target && clock - idleSince > 8 && !beacons.a.visible) {
+		if (!still && !paused && !inspecting && !dragging && !controls.autoRotate && !target && clock - idleSince > 3) {
 			controls.autoRotate = true;
 		}
-		controls.update();
+		controls.update(delta);
 
 		rings.forEach(function (ring) {
 			const t = (time * 0.6 + ring.userData.phase) % 1;

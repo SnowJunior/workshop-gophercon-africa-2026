@@ -41,7 +41,13 @@ function start(canvas, setup) {
 	const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
 	camera.position.z = 5;
 
-	const frame = setup({ THREE, scene, camera, renderer, canvas, pointer, colour, still }) || function () {};
+	let pending = false;
+	function invalidate() {
+		if (!still || pending) return;
+		pending = true;
+		requestAnimationFrame(() => { pending = false; draw(0, 0); });
+	}
+	const frame = setup({ THREE, scene, camera, renderer, canvas, pointer, colour, still, invalidate }) || function () {};
 
 	function colour(prop, fallback) {
 		const value = getComputedStyle(canvas).getPropertyValue(prop).trim();

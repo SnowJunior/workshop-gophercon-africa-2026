@@ -31,7 +31,7 @@ func Globe(data GlobeData) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"globe\" data-globe><div class=\"globe__stage\"><canvas class=\"three-scene globe__canvas\" data-scene=\"globe\" role=\"img\" aria-label=\"A globe with a glowing point wherever animals were seen. The same places are listed beside it.\"></canvas><div class=\"globe__tip\" data-globe-tip hidden></div><p class=\"globe__hint\">Drag to turn · pick a glowing point</p></div><div class=\"faceoff\" data-faceoff><div class=\"faceoff__cards\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<noscript><p>Enable JavaScript to explore the globe and compare weather. You can still <a href=\"/#sightings\">browse every sighting</a>.</p></noscript><div class=\"globe\" data-globe id=\"globe-explorer\"><div class=\"globe__toolbar\"><p data-explorer-status aria-live=\"polite\">Pick a glowing point to step into its weather.</p><div><button type=\"button\" class=\"faceoff__action\" data-rotation aria-pressed=\"false\">Pause rotation</button> <button type=\"button\" class=\"faceoff__action\" data-choose hidden>Choose another place</button> <button type=\"button\" class=\"faceoff__action\" data-show-cards hidden>View selected sightings</button></div></div><div class=\"globe__stage\"><canvas class=\"three-scene globe__canvas\" data-scene=\"globe\" role=\"img\" aria-label=\"A globe with a glowing point wherever animals were seen. Choose a location using the buttons below for keyboard access.\"></canvas><div class=\"globe__tip\" data-globe-tip hidden></div><p class=\"globe__hint\">Drag to turn · pick a glowing point<br><span>Or choose from the places below</span></p></div><div class=\"faceoff\" data-faceoff inert><div class=\"faceoff__cards\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,14 +47,14 @@ func Globe(data GlobeData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><p class=\"faceoff__gap\" data-gap aria-live=\"polite\">Pick a point on the globe for card A, then another for card B, and the two sightings face off.</p><dl class=\"faceoff__bars\" data-bars hidden></dl><div class=\"faceoff__actions\" data-actions hidden><button type=\"button\" class=\"faceoff__action\" data-swap>Swap sides</button> <button type=\"button\" class=\"faceoff__action\" data-reset>Start again</button></div></div></div><details class=\"places\" open><summary>Places on the globe <span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><p class=\"faceoff__gap\" data-gap aria-live=\"polite\">Pick a point on the globe for card A, then another for card B, and the two sightings face off.</p><dl class=\"faceoff__bars\" data-bars hidden></dl><div class=\"faceoff__actions\" data-actions hidden><button type=\"button\" class=\"faceoff__action\" data-swap hidden>Swap sides</button> <button type=\"button\" class=\"faceoff__action\" data-reset>Start again</button></div></div></div><details class=\"places\" open><summary>Places on the globe <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(len(data.Spots)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 27, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 36, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -72,7 +72,7 @@ func Globe(data GlobeData) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(strconv.Itoa(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 31, Col: 75}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 40, Col: 75}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 			if templ_7745c5c3_Err != nil {
@@ -85,7 +85,7 @@ func Globe(data GlobeData) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(spot.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 32, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 41, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -98,7 +98,7 @@ func Globe(data GlobeData) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(len(spot.Items)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 33, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 42, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -109,15 +109,7 @@ func Globe(data GlobeData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</ul></details><template id=\"faceoff-card\"><article class=\"wxcard\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = WeatherScene().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div class=\"wxcard__photo\"><img alt=\"\" loading=\"lazy\"></div><div class=\"wxcard__body\"><p class=\"wxcard__tag\"></p><h3 class=\"wxcard__name\"></h3><p class=\"wxcard__sci\"></p><p class=\"wxcard__place\"></p><p class=\"wxcard__weather\"><svg class=\"wxline__icon\" aria-hidden=\"true\"><use></use></svg> <span class=\"wxcard__temp\"></span> <span class=\"wxcard__wx\"></span></p><p class=\"wxcard__by\"></p><div class=\"wxcard__others\"></div><a class=\"wxcard__link\">Open sighting →</a></div></article></template>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</ul></details><template id=\"faceoff-card\"><article class=\"wxcard\"><div class=\"wxcard__photo\"><img alt=\"\" loading=\"lazy\"></div><div class=\"wxcard__body\"><p class=\"wxcard__tag\"></p><h3 class=\"wxcard__name\" tabindex=\"-1\"></h3><p class=\"wxcard__sci\"></p><p class=\"wxcard__place\"></p><p class=\"wxcard__weather\"><svg class=\"wxline__icon\" aria-hidden=\"true\"><use></use></svg> <span class=\"wxcard__temp\"></span> <span class=\"wxcard__wx\"></span></p><p class=\"wxcard__by\"></p><div class=\"wxcard__others\"></div><a class=\"wxcard__link\">Open sighting →</a></div></article></template>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -155,7 +147,7 @@ func faceoffSlot(side string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -168,48 +160,69 @@ func faceoffSlot(side string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" data-slot=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" data-slot=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.ResolveAttributeValue(side)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 63, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 71, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\"><div class=\"faceoff__empty\"><span class=\"faceoff__letter\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"><div class=\"weather-space\" aria-hidden=\"true\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = WeatherScene().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<canvas class=\"three-scene weather-space__canvas\" data-scene=\"weather\" data-weather-side=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(side)
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.ResolveAttributeValue(side)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 65, Col: 39}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 74, Col: 98}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</span> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\"></canvas></div><div class=\"faceoff__content\" data-slot-content><div class=\"faceoff__empty\"><span class=\"faceoff__letter\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(side)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/components/globe.templ`, Line: 78, Col: 40}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</span> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if side == "a" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<p>Pick a point</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<p>Pick a point</p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<p>Then pick another</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<p>Another place, another sky</p><button type=\"button\" class=\"faceoff__action\" data-choose>Choose a second place ↗</button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

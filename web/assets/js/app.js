@@ -2,7 +2,7 @@
 
 (function () {
 	const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	const AUTOPLAY = 6000;
+	const AUTOPLAY = 3000;
 
 	// Showcase: one sighting in the banner, the next three waiting as cards.
 	function showcase(stage) {
@@ -34,7 +34,7 @@
 				s.inert = !on;
 			});
 			clearTimeout(leaving.leaveTimer);
-			leaving.leaveTimer = setTimeout(() => leaving.classList.remove('is-leaving'), 1400);
+			leaving.leaveTimer = setTimeout(() => leaving.classList.remove('is-leaving'), 900);
 			cards.forEach((c, i) => {
 				c.dataset.pos = String((i - current + n) % n);
 			});
@@ -114,31 +114,6 @@
 
 		slides.forEach((s, i) => { s.inert = i !== 0; });
 		restart();
-	}
-
-	// The menu button opens the full-screen menu.
-	function menu() {
-		const toggle = document.querySelector('[data-menu-toggle]');
-		const panel = document.getElementById('site-menu');
-		if (!toggle || !panel) return;
-
-		function set(open) {
-			toggle.setAttribute('aria-expanded', String(open));
-			panel.hidden = !open;
-			document.body.classList.toggle('menu-open', open);
-			if (open) panel.querySelector('a').focus();
-		}
-
-		toggle.addEventListener('click', () => set(panel.hidden));
-		panel.addEventListener('click', (e) => {
-			if (e.target.closest('[data-menu-link]')) set(false);
-		});
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && !panel.hidden) {
-				set(false);
-				toggle.focus();
-			}
-		});
 	}
 
 	// The search box narrows the tiles as you type.
@@ -264,7 +239,6 @@
 	document.querySelectorAll('[data-showcase]').forEach(showcase);
 	back();
 	morph();
-	menu();
 	search();
 	arrive();
 })();

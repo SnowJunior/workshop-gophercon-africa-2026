@@ -12,7 +12,7 @@
 	--font: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
 	--radius: 22px;
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
-	--slide-time: 900ms;
+	--slide-time: 550ms;
 
 }
 
@@ -350,7 +350,7 @@ body.menu-open .site-header {
 }
 
 .stage.is-playing .stage__num.is-active::before {
-	animation: progress var(--autoplay, 6s) linear forwards;
+	animation: progress var(--autoplay, 3s) linear forwards;
 }
 
 @keyframes progress {

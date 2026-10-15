@@ -3,13 +3,22 @@ package components
 import "strconv"
 
 templ Globe(data GlobeData) {
-	<div class="globe" data-globe>
-		<div class="globe__stage">
-			<canvas class="three-scene globe__canvas" data-scene="globe" role="img" aria-label="A globe with a glowing point wherever animals were seen. The same places are listed beside it."></canvas>
-			<div class="globe__tip" data-globe-tip hidden></div>
-			<p class="globe__hint">Drag to turn · pick a glowing point</p>
+	<noscript><p>Enable JavaScript to explore the globe and compare weather. You can still <a href="/#sightings">browse every sighting</a>.</p></noscript>
+	<div class="globe" data-globe id="globe-explorer">
+		<div class="globe__toolbar">
+			<p data-explorer-status aria-live="polite">Pick a glowing point to step into its weather.</p>
+			<div>
+				<button type="button" class="faceoff__action" data-rotation aria-pressed="false">Pause rotation</button>
+				<button type="button" class="faceoff__action" data-choose hidden>Choose another place</button>
+				<button type="button" class="faceoff__action" data-show-cards hidden>View selected sightings</button>
+			</div>
 		</div>
-		<div class="faceoff" data-faceoff>
+		<div class="globe__stage">
+			<canvas class="three-scene globe__canvas" data-scene="globe" role="img" aria-label="A globe with a glowing point wherever animals were seen. Choose a location using the buttons below for keyboard access."></canvas>
+			<div class="globe__tip" data-globe-tip hidden></div>
+			<p class="globe__hint">Drag to turn · pick a glowing point<br/><span>Or choose from the places below</span></p>
+		</div>
+		<div class="faceoff" data-faceoff inert>
 			<div class="faceoff__cards">
 				@faceoffSlot("a")
 				<div class="faceoff__vs" aria-hidden="true"><span>VS</span></div>
@@ -18,7 +27,7 @@ templ Globe(data GlobeData) {
 			<p class="faceoff__gap" data-gap aria-live="polite">Pick a point on the globe for card A, then another for card B, and the two sightings face off.</p>
 			<dl class="faceoff__bars" data-bars hidden></dl>
 			<div class="faceoff__actions" data-actions hidden>
-				<button type="button" class="faceoff__action" data-swap>Swap sides</button>
+				<button type="button" class="faceoff__action" data-swap hidden>Swap sides</button>
 				<button type="button" class="faceoff__action" data-reset>Start again</button>
 			</div>
 		</div>
@@ -38,11 +47,10 @@ templ Globe(data GlobeData) {
 	</details>
 	<template id="faceoff-card">
 		<article class="wxcard">
-			@WeatherScene()
 			<div class="wxcard__photo"><img alt="" loading="lazy"/></div>
 			<div class="wxcard__body">
 				<p class="wxcard__tag"></p>
-				<h3 class="wxcard__name"></h3>
+				<h3 class="wxcard__name" tabindex="-1"></h3>
 				<p class="wxcard__sci"></p>
 				<p class="wxcard__place"></p>
 				<p class="wxcard__weather">
@@ -61,13 +69,20 @@ templ Globe(data GlobeData) {
 
 templ faceoffSlot(side string) {
 	<div class={ "faceoff__slot", "faceoff__slot--" + side } data-slot={ side }>
-		<div class="faceoff__empty">
-			<span class="faceoff__letter">{ side }</span>
-			if side == "a" {
-				<p>Pick a point</p>
-			} else {
-				<p>Then pick another</p>
-			}
+		<div class="weather-space" aria-hidden="true">
+			@WeatherScene()
+			<canvas class="three-scene weather-space__canvas" data-scene="weather" data-weather-side={ side }></canvas>
+		</div>
+		<div class="faceoff__content" data-slot-content>
+			<div class="faceoff__empty">
+				<span class="faceoff__letter">{ side }</span>
+				if side == "a" {
+					<p>Pick a point</p>
+				} else {
+					<p>Another place, another sky</p>
+					<button type="button" class="faceoff__action" data-choose>Choose a second place ↗</button>
+				}
+			</div>
 		</div>
 	</div>
 }
