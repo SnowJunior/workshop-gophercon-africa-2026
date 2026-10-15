@@ -57,8 +57,7 @@ templ Showcase(slides []Slide) {
 					<div class="slide__copy">
 						<p class="slide__index">{ number(i) }</p>
 						<h2 class={ "slide__title", titleSize(displayName(sl.Sighting.Species)) }>
-							<span class="slide__name">{ displayName(sl.Sighting.Species) }</span>
-							<span class="slide__dot" aria-hidden="true"></span>
+							<span class="slide__name">{ nameHead(displayName(sl.Sighting.Species)) }<span class="nowrap">{ nameTail(displayName(sl.Sighting.Species)) }<span class="slide__dot" aria-hidden="true"></span></span></span>
 						</h2>
 						<div class="slide__body">
 							<p class="slide__year">{ sl.Sighting.HappenedAt.Format("2006") }</p>

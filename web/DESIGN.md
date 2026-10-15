@@ -36,6 +36,9 @@ widely spaced.
   numbered cards on the left move up one place each change. Left-hand numbers jump to a slide, and
   a gold line under the active one fills as autoplay counts down (6s, pauses on hover/focus, a
   pause button, off when reduced motion is on). A–B are previous/next; arrow keys and swipes work too.
+- **Vertical motion**: on a change the outgoing photo slides up and fades, the next rises from
+  below (reversed when going back). The showing photo drifts slowly up and down; the waiting
+  cards float out of step and their photos pan top to bottom.
 - **Pattern**: an SVG grid of quarter circles, half circles, circles and leaves, laid out by a
   fixed sequence in `showcase.go`. A few squares rotate on every slide change.
 - **Header** (layout): logo top-left, two-line menu button in the middle (opens a full-screen

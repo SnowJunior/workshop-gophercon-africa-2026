@@ -20,15 +20,21 @@
 
 		stage.style.setProperty('--autoplay', AUTOPLAY + 'ms');
 
-		function go(to) {
+		// dir is 1 to slide up to the next photo, -1 to slide down to the previous.
+		function go(to, dir) {
 			to = (to + n) % n;
 			if (to === current && slides[to].classList.contains('is-active')) return;
+			stage.dataset.dir = (dir || (to > current ? 1 : -1)) > 0 ? 'next' : 'back';
+			const leaving = slides[current];
 			current = to;
 			slides.forEach((s, i) => {
 				const on = i === current;
 				s.classList.toggle('is-active', on);
+				s.classList.toggle('is-leaving', s === leaving && !on);
 				s.inert = !on;
 			});
+			clearTimeout(leaving.leaveTimer);
+			leaving.leaveTimer = setTimeout(() => leaving.classList.remove('is-leaving'), 1400);
 			cards.forEach((c, i) => {
 				c.dataset.pos = String((i - current + n) % n);
 			});
@@ -59,20 +65,23 @@
 			if (!playing) return;
 			void stage.offsetWidth; // restarts the progress line's animation
 			stage.classList.add('is-playing');
-			timer = setTimeout(() => go(current + 1), AUTOPLAY);
+			timer = setTimeout(() => go(current + 1, 1), AUTOPLAY);
 		}
 
 		stage.addEventListener('click', (e) => {
 			const target = e.target.closest('[data-goto], [data-prev], [data-next]');
 			if (!target) return;
 			if ('goto' in target.dataset) go(Number(target.dataset.goto));
-			else go(current + ('prev' in target.dataset ? -1 : 1));
+			else {
+				const dir = 'prev' in target.dataset ? -1 : 1;
+				go(current + dir, dir);
+			}
 		});
 
 		stage.addEventListener('keydown', (e) => {
 			if (e.target.matches('input')) return;
-			if (e.key === 'ArrowLeft') go(current - 1);
-			if (e.key === 'ArrowRight') go(current + 1);
+			if (e.key === 'ArrowLeft') go(current - 1, -1);
+			if (e.key === 'ArrowRight') go(current + 1, 1);
 		});
 
 		stage.addEventListener('pointerenter', () => { hovering = true; restart(); });
@@ -99,7 +108,7 @@
 		stage.addEventListener('touchend', (e) => {
 			if (startX === null || e.target.closest('.stage__cards')) return;
 			const dx = e.changedTouches[0].clientX - startX;
-			if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+			if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
 			startX = null;
 		});
 

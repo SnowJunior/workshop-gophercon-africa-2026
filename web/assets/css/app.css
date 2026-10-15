@@ -508,6 +508,24 @@ body.menu-open .site-header {
 	border-radius: var(--radius);
 	background: var(--night-soft);
 	box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.6);
+	animation: float 6s ease-in-out infinite alternate;
+}
+
+.stage__card:nth-child(3n + 2) .stage__card-photo {
+	animation-delay: -2s;
+}
+
+.stage__card:nth-child(3n) .stage__card-photo {
+	animation-delay: -4s;
+}
+
+@keyframes float {
+	from {
+		transform: translateY(-9px);
+	}
+	to {
+		transform: translateY(9px);
+	}
 }
 
 .stage__card-photo img {
@@ -515,6 +533,20 @@ body.menu-open .site-header {
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.7s var(--ease);
+	animation: pan-photo 9s ease-in-out infinite alternate;
+}
+
+.stage__card:nth-child(even) .stage__card-photo img {
+	animation-direction: alternate-reverse;
+}
+
+@keyframes pan-photo {
+	from {
+		object-position: 50% 0%;
+	}
+	to {
+		object-position: 50% 100%;
+	}
 }
 
 .stage__card button:hover img,
@@ -553,8 +585,23 @@ body.menu-open .site-header {
 	-webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
 	mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
 	opacity: 0;
-	transform: scale(1.12);
-	transition: opacity var(--slide-time) ease, transform calc(var(--slide-time) * 2) var(--ease);
+	transform: translateY(var(--enter)) scale(1.04);
+	transition: opacity var(--slide-time) ease, transform calc(var(--slide-time) * 1.4) var(--ease);
+}
+
+.stage {
+	--enter: 26%;
+	--leave: -26%;
+}
+
+.stage[data-dir="back"] {
+	--enter: -26%;
+	--leave: 26%;
+}
+
+.slide.is-leaving .slide__media {
+	opacity: 0;
+	transform: translateY(var(--leave)) scale(1.04);
 }
 
 .slide__media::after {
@@ -571,6 +618,20 @@ body.menu-open .site-header {
 	height: 100%;
 	object-fit: cover;
 	filter: saturate(1.15) contrast(1.05);
+	transform: scale(1.1);
+}
+
+.slide.is-active .slide__media img {
+	animation: pan-y 10s ease-in-out infinite alternate;
+}
+
+@keyframes pan-y {
+	from {
+		transform: translateY(-4%) scale(1.1);
+	}
+	to {
+		transform: translateY(4%) scale(1.1);
+	}
 }
 
 .slide.is-active .slide__media {
@@ -1841,4 +1902,8 @@ body.page--spotlight .site-footer {
 		width: 100%;
 		padding-inline: 1.4rem;
 	}
+}
+
+.nowrap {
+	white-space: nowrap;
 }

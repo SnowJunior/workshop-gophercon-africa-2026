@@ -143,3 +143,16 @@ func rotate(t PatternTile) string {
 func translate(t PatternTile) string {
 	return fmt.Sprintf("translate(%d %d)", t.X, t.Y)
 }
+
+// nameHead is every word of a name but the last, with its trailing space.
+func nameHead(name string) string {
+	if i := strings.LastIndex(name, " "); i >= 0 {
+		return name[:i+1]
+	}
+	return ""
+}
+
+// nameTail is the last word of a name, kept on one line with the dot after it.
+func nameTail(name string) string {
+	return name[strings.LastIndex(name, " ")+1:]
+}
