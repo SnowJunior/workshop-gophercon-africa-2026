@@ -20,7 +20,7 @@ templ SpotlightView(sp Spotlight) {
 			<h1 class="spot__title" id="spot-title">
 				<span class="spot__lead">Explore the</span>
 				<span class={ "spot__name", nameSize(displayName(sp.Sighting.Species)) }>{ displayName(sp.Sighting.Species) }</span>
-				<span class="spot__lead">{ whereLine(sp.Sighting.Location) }</span>
+				<span class="spot__lead">{ whereLine(sp.Sighting.Location) }<span class="spot__dot" aria-hidden="true"></span></span>
 			</h1>
 			if sp.Sighting.Species.ScientificName != "" {
 				<p class="spot__scientific">{ sp.Sighting.Species.ScientificName }</p>

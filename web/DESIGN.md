@@ -54,13 +54,16 @@ widely spaced.
 
 ## A sighting's page (`/sightings/{id}`)
 
-Based on the attendee's second reference: a forest-green panel on a misty teal backdrop, text on
-the left, the photo on the right over an amber block and running off the panel's right edge.
+Layout from the attendee's second reference (text left, photo right over a coloured block, an
+outlined word along the bottom), in the same colours as the home page: one theme across pages.
 
-- Scoped colours on `body.page--spotlight`: `--forest #2E5A4F`, `--forest-deep #1F4037`,
-  `--amber #D4860B`, `--amber-ink #13261F` (dark text on the amber button, for contrast).
+- Bright blue backdrop and navy panel as on the home page; the panel's background is the photo,
+  blurred and darkened. The block behind the photo is `--cobalt`; the button, arrows, outlined
+  word and scientific name are `--gold`; the button's text is `--night`. No page-specific colours.
+- The photo sits over the block, rising above the panel's top edge; the block shows to its right
+  and below it.
 - Headline in three lines: "Explore the" / the name in heavy uppercase with a stacked grey shadow /
-  "of {country}". Then the scientific name, where and when, who recorded it, their notes.
+  "of {country}" ending in the cobalt dot. Then the scientific name, where and when, who recorded it, their notes.
 - "Explore more" opens the GBIF record (or the next sighting); "Back to every sighting" returns
   to the tile.
 - The left rail is vertical text: date, country, count. No nav links: the header shows only the logo.
