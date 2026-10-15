@@ -228,7 +228,32 @@
 		});
 	}
 
+	// Back returns to the home page where you left it, when that's where you came from; Esc does the same.
+	function back() {
+		const link = document.querySelector('[data-back]');
+		if (!link) return;
+		const fromHome = (() => {
+			try {
+				const ref = new URL(document.referrer);
+				return ref.origin === location.origin && ref.pathname === '/';
+			} catch (err) {
+				return false;
+			}
+		})();
+
+		link.addEventListener('click', (e) => {
+			if (fromHome && history.length > 1) {
+				e.preventDefault();
+				history.back();
+			}
+		});
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && !document.querySelector('dialog[open]')) link.click();
+		});
+	}
+
 	document.querySelectorAll('[data-showcase]').forEach(showcase);
+	back();
 	morph();
 	menu();
 	search();

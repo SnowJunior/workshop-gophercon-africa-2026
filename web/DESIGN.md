@@ -64,8 +64,12 @@ outlined word along the bottom), in the same colours as the home page: one theme
   and below it.
 - Headline in three lines: "Explore the" / the name in heavy uppercase with a stacked grey shadow /
   "of {country}" ending in the cobalt dot. Then the scientific name, where and when, who recorded it, their notes.
-- "Explore more" opens the GBIF record (or the next sighting); "Back to every sighting" returns
-  to the tile.
+- A rounded "Back to all sightings" button above the headline (top-right on a phone). It steps
+  back in history when you came from the home page, so you land where you were; otherwise it
+  links to that sighting's tile. Esc does the same.
+- "Explore more" opens the GBIF record (or the next sighting).
+- Parts sit in a grid and stack in order (back, headline, text, button, thumbnails, outlined
+  name), never pinned to fixed positions, so long text pushes the rest down instead of overlapping.
 - The left rail is vertical text: date, country, count. No nav links: the header shows only the logo.
 - Bottom: previous arrow, the next three sightings with photos as thumbnails, next arrow.
 - The last word of the name huge in amber outline along the panel's bottom edge.
