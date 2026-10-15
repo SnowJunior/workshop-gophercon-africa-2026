@@ -43,19 +43,12 @@ templ Home(sightings []sighting.Sighting) {
 			}
 		</section>
 		if len(sightings) > 0 {
-			<section class="section section--map" id="map" aria-labelledby="map-title">
+			<section class="section section--globe" id="globe" aria-labelledby="globe-title">
 				<header class="section__head reveal">
 					<p class="section__kicker">03</p>
-					<h2 class="section__title" id="map-title">Where they were seen<span class="slide__dot" aria-hidden="true"></span></h2>
+					<h2 class="section__title" id="globe-title">Around the globe<span class="slide__dot" aria-hidden="true"></span></h2>
 				</header>
-				<div class="reveal">
-					@components.Map(components.MapProps{
-						Points:  components.MapPoints(sightings),
-						Cluster: true,
-						Label:   "Map of where each sighting was recorded",
-						Class:   "map--dark",
-					})
-				</div>
+				@components.Globe(components.NewGlobeData(sightings))
 			</section>
 		}
 	}

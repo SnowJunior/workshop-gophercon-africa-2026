@@ -11,20 +11,22 @@ import (
 )
 
 templ SightingCard(s sighting.Sighting, i int) {
-	<article class="tile" id={ Anchor(s) } data-tile data-search={ searchText(s) }>
+	<article class={ "tile", "tile--" + skyOf(s.Weather) } id={ Anchor(s) } data-tile data-search={ searchText(s) }>
 		<div class="tile__photo">
 			if m, ok := photo(s); ok {
-				<img src={ m.URL } alt={ altText(m) } loading="lazy"/>
+				<a class="tile__photo-link" href={ templ.URL(SightingURL(s)) } tabindex="-1" aria-hidden="true" data-morph><img src={ m.URL } alt="" loading="lazy"/></a>
 			} else {
 				<div class="tile__empty" aria-hidden="true"><span></span><span></span></div>
 			}
 			<span class="tile__num">{ number(i) }</span>
 		</div>
 		<div class="tile__body">
+			@WeatherScene()
 			<h3 class="tile__name"><a class="tile__link" href={ templ.URL(SightingURL(s)) } data-morph>{ displayName(s.Species) }</a><span class="tile__dot" aria-hidden="true"></span></h3>
 			if s.Species.ScientificName != "" {
 				<p class="tile__scientific">{ s.Species.ScientificName }</p>
 			}
+			@WeatherLine(s.Weather)
 			<dl class="tile__meta">
 				<dt>Seen</dt>
 				<dd>{ s.HappenedAt.Format("2 Jan 2006") }</dd>

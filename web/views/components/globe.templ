@@ -1,0 +1,73 @@
+package components
+
+import "strconv"
+
+templ Globe(data GlobeData) {
+	<div class="globe" data-globe>
+		<div class="globe__stage">
+			<canvas class="three-scene globe__canvas" data-scene="globe" role="img" aria-label="A globe with a glowing point wherever animals were seen. The same places are listed beside it."></canvas>
+			<div class="globe__tip" data-globe-tip hidden></div>
+			<p class="globe__hint">Drag to turn · pick a glowing point</p>
+		</div>
+		<div class="faceoff" data-faceoff>
+			<div class="faceoff__cards">
+				@faceoffSlot("a")
+				<div class="faceoff__vs" aria-hidden="true"><span>VS</span></div>
+				@faceoffSlot("b")
+			</div>
+			<p class="faceoff__gap" data-gap aria-live="polite">Pick a point on the globe for card A, then another for card B, and the two sightings face off.</p>
+			<dl class="faceoff__bars" data-bars hidden></dl>
+			<div class="faceoff__actions" data-actions hidden>
+				<button type="button" class="faceoff__action" data-swap>Swap sides</button>
+				<button type="button" class="faceoff__action" data-reset>Start again</button>
+			</div>
+		</div>
+	</div>
+	<details class="places" open>
+		<summary>Places on the globe <span>{ strconv.Itoa(len(data.Spots)) }</span></summary>
+		<ul>
+			for i, spot := range data.Spots {
+				<li>
+					<button type="button" class="places__spot" data-spot={ strconv.Itoa(i) }>
+						{ spot.Label }
+						<span>{ strconv.Itoa(len(spot.Items)) }</span>
+					</button>
+				</li>
+			}
+		</ul>
+	</details>
+	<template id="faceoff-card">
+		<article class="wxcard">
+			@WeatherScene()
+			<div class="wxcard__photo"><img alt="" loading="lazy"/></div>
+			<div class="wxcard__body">
+				<p class="wxcard__tag"></p>
+				<h3 class="wxcard__name"></h3>
+				<p class="wxcard__sci"></p>
+				<p class="wxcard__place"></p>
+				<p class="wxcard__weather">
+					<svg class="wxline__icon" aria-hidden="true"><use></use></svg>
+					<span class="wxcard__temp"></span>
+					<span class="wxcard__wx"></span>
+				</p>
+				<p class="wxcard__by"></p>
+				<div class="wxcard__others"></div>
+				<a class="wxcard__link">Open sighting →</a>
+			</div>
+		</article>
+	</template>
+	@templ.JSONScript("globe-data", data)
+}
+
+templ faceoffSlot(side string) {
+	<div class={ "faceoff__slot", "faceoff__slot--" + side } data-slot={ side }>
+		<div class="faceoff__empty">
+			<span class="faceoff__letter">{ side }</span>
+			if side == "a" {
+				<p>Pick a point</p>
+			} else {
+				<p>Then pick another</p>
+			}
+		</div>
+	</div>
+}
