@@ -207,7 +207,29 @@
 		counts.forEach((c) => tick.observe(c));
 	}
 
+	// The photo you picked glides into place on the sighting's page. Only one
+	// element may carry the name, so it's set on the clicked one alone.
+	function morph() {
+		const NAME = 'spot-photo';
+		const clear = () => document.querySelectorAll('img').forEach((img) => { img.style.viewTransitionName = 'none'; });
+
+		document.addEventListener('click', (e) => {
+			const link = e.target.closest('[data-morph]');
+			if (!link || e.metaKey || e.ctrlKey || e.shiftKey) return;
+			const box = link.closest('.tile, .slide') || link;
+			const img = box.querySelector('.tile__photo img, .slide__media img, .spot__thumb img');
+			if (!img) return;
+			clear();
+			img.style.viewTransitionName = NAME;
+		});
+
+		window.addEventListener('pageshow', () => {
+			document.querySelectorAll('img').forEach((img) => { img.style.viewTransitionName = ''; });
+		});
+	}
+
 	document.querySelectorAll('[data-showcase]').forEach(showcase);
+	morph();
 	menu();
 	search();
 	arrive();

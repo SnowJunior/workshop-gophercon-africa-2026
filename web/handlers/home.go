@@ -8,6 +8,9 @@ import (
 	"workshop/web/views/pages"
 )
 
+// homeFilter picks the sightings the home page lists, and the order a sighting's page steps through.
+var homeFilter = sighting.ListFilter{Limit: 1000}
+
 type SightingsLister interface {
 	List(ctx context.Context, filter sighting.ListFilter) ([]sighting.Sighting, error)
 }
@@ -16,9 +19,7 @@ func Home(logger *slog.Logger, sightings SightingsLister) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		items, err := sightings.List(ctx, sighting.ListFilter{
-			Limit: 1000,
-		})
+		items, err := sightings.List(ctx, homeFilter)
 		if err != nil {
 			logger.ErrorContext(ctx, "handlers: listing sightings: "+err.Error())
 			renderError(ctx, w, logger, http.StatusInternalServerError, "Unable to load sightings.")

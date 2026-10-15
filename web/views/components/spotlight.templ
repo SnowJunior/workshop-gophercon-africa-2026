@@ -1,0 +1,75 @@
+package components
+
+templ SpotlightView(sp Spotlight) {
+	<article class="spot" aria-labelledby="spot-title">
+		<div class="spot__panel" aria-hidden="true">
+			if sp.HasPhoto {
+				<img class="spot__mist" src={ sp.Photo.URL } alt=""/>
+			}
+		</div>
+		<ul class="spot__rail" aria-label="At a glance">
+			<li>{ sp.Sighting.HappenedAt.Format("2 Jan 2006") }</li>
+			if sp.Sighting.Location.Country != "" {
+				<li>{ sp.Sighting.Location.Country }</li>
+			}
+			if sp.Sighting.IndividualCount != nil {
+				<li>{ individuals(*sp.Sighting.IndividualCount) }</li>
+			}
+		</ul>
+		<div class="spot__copy">
+			<h1 class="spot__title" id="spot-title">
+				<span class="spot__lead">Explore the</span>
+				<span class={ "spot__name", nameSize(displayName(sp.Sighting.Species)) }>{ displayName(sp.Sighting.Species) }</span>
+				<span class="spot__lead">{ whereLine(sp.Sighting.Location) }</span>
+			</h1>
+			if sp.Sighting.Species.ScientificName != "" {
+				<p class="spot__scientific">{ sp.Sighting.Species.ScientificName }</p>
+			}
+			<div class="spot__text">
+				<p>{ seenLine(sp.Sighting) }</p>
+				if sp.Sighting.RecordedBy != "" {
+					<p>Recorded by { sp.Sighting.RecordedBy }.</p>
+				}
+				if sp.Sighting.Remarks != "" {
+					<p>{ remarks(sp.Sighting.Remarks) }</p>
+				}
+			</div>
+			<div class="spot__actions">
+				if sp.Sighting.ReferenceURL != "" {
+					<a class="spot__button" href={ templ.URL(sp.Sighting.ReferenceURL) } rel="noopener">Explore more</a>
+				} else {
+					<a class="spot__button" href={ templ.URL(SightingURL(sp.Next)) }>Explore more</a>
+				}
+				<a class="spot__back" href={ templ.URL("/#" + Anchor(sp.Sighting)) }>Back to every sighting</a>
+			</div>
+		</div>
+		<div class="spot__stage">
+			<div class="spot__block" aria-hidden="true"></div>
+			if sp.HasPhoto {
+				<a class="spot__photo" href={ templ.URL(sp.Photo.URL) } data-lightbox data-caption={ sp.Photo.Creator }>
+					<img src={ sp.Photo.URL } alt={ altText(sp.Photo) } fetchpriority="high"/>
+				</a>
+			} else {
+				<div class="spot__photo spot__photo--empty" aria-hidden="true"><span></span><span></span></div>
+			}
+		</div>
+		<nav class="spot__strip" aria-label="More sightings">
+			<a class="spot__arrow" href={ templ.URL(SightingURL(sp.Prev)) } aria-label={ "Previous: " + displayName(sp.Prev.Species) }>
+				<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M20 12H4m0 0 6-6m-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+			</a>
+			<ul>
+				for _, up := range sp.Upcoming {
+					<li>
+						<a class="spot__thumb" href={ templ.URL(SightingURL(up.Sighting)) } data-morph>
+							<img src={ up.Photo.URL } alt={ displayName(up.Sighting.Species) } loading="lazy"/>
+						</a>
+					</li>
+				}
+			</ul>
+			<a class="spot__arrow" href={ templ.URL(SightingURL(sp.Next)) } aria-label={ "Next: " + displayName(sp.Next.Species) }>
+				<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 12h16m0 0-6-6m6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+			</a>
+		</nav>
+		<p class="spot__outline" aria-hidden="true">{ outlineWord(sp.Sighting) }</p>
+	</article>
+}

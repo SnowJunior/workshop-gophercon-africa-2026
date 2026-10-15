@@ -44,9 +44,29 @@ widely spaced.
   in; tiles without a photo show a small blue/white/red geometric placeholder.
 - **Stats**: sightings, species, countries and photos, counting up when seen.
 - **Map**: Leaflet with clusters, dark tiles, red markers.
-- **Lightbox**: banner photo and tile photos open full size.
+- **Lightbox**: the banner photo and a sighting page's photo open full size. Tiles open the
+  sighting's page instead.
 
 ## Avoid
 
 - Inline styles built from GBIF data; `innerHTML` with GBIF text.
 - Animating anything when the reader asks for reduced motion.
+
+## A sighting's page (`/sightings/{id}`)
+
+Based on the attendee's second reference: a forest-green panel on a misty teal backdrop, text on
+the left, the photo on the right over an amber block and running off the panel's right edge.
+
+- Scoped colours on `body.page--spotlight`: `--forest #2E5A4F`, `--forest-deep #1F4037`,
+  `--amber #D4860B`, `--amber-ink #13261F` (dark text on the amber button, for contrast).
+- Headline in three lines: "Explore the" / the name in heavy uppercase with a stacked grey shadow /
+  "of {country}". Then the scientific name, where and when, who recorded it, their notes.
+- "Explore more" opens the GBIF record (or the next sighting); "Back to every sighting" returns
+  to the tile.
+- The left rail is vertical text: date, country, count. No nav links: the header shows only the logo.
+- Bottom: previous arrow, the next three sightings with photos as thumbnails, next arrow.
+- The last word of the name huge in amber outline along the panel's bottom edge.
+- The panel's background is the same photo, blurred and drifting slowly.
+- Entrance: text rises in a stagger, the amber block grows upward, the photo slides in from the
+  right, the outline word glides in. Clicking a tile, a thumbnail or the banner's "Explore" link
+  morphs that photo into this page's photo (view transitions, Chrome/Edge/Safari 18.2+).

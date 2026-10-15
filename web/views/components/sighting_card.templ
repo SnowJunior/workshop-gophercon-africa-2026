@@ -14,16 +14,14 @@ templ SightingCard(s sighting.Sighting, i int) {
 	<article class="tile" id={ Anchor(s) } data-tile data-search={ searchText(s) }>
 		<div class="tile__photo">
 			if m, ok := photo(s); ok {
-				<a href={ templ.URL(m.URL) } data-lightbox data-caption={ m.Creator }>
-					<img src={ m.URL } alt={ altText(m) } loading="lazy"/>
-				</a>
+				<img src={ m.URL } alt={ altText(m) } loading="lazy"/>
 			} else {
 				<div class="tile__empty" aria-hidden="true"><span></span><span></span></div>
 			}
 			<span class="tile__num">{ number(i) }</span>
 		</div>
 		<div class="tile__body">
-			<h3 class="tile__name">{ displayName(s.Species) }<span class="tile__dot" aria-hidden="true"></span></h3>
+			<h3 class="tile__name"><a class="tile__link" href={ templ.URL(SightingURL(s)) } data-morph>{ displayName(s.Species) }</a><span class="tile__dot" aria-hidden="true"></span></h3>
 			if s.Species.ScientificName != "" {
 				<p class="tile__scientific">{ s.Species.ScientificName }</p>
 			}

@@ -61,19 +61,20 @@ templ Showcase(slides []Slide) {
 							<span class="slide__dot" aria-hidden="true"></span>
 						</h2>
 						<div class="slide__body">
-						<p class="slide__year">{ sl.Sighting.HappenedAt.Format("2006") }</p>
-						<div class="slide__text">
-							if sl.Sighting.Species.ScientificName != "" {
-								<p class="slide__scientific">{ sl.Sighting.Species.ScientificName }</p>
-							}
-							<p>{ seenLine(sl.Sighting) }</p>
-							if sl.Sighting.RecordedBy != "" {
-								<p>Recorded by { sl.Sighting.RecordedBy }.</p>
-							}
-							if sl.Sighting.Remarks != "" {
-								<p class="slide__remarks">{ remarks(sl.Sighting.Remarks) }</p>
-							}
-						</div>
+							<p class="slide__year">{ sl.Sighting.HappenedAt.Format("2006") }</p>
+							<div class="slide__text">
+								if sl.Sighting.Species.ScientificName != "" {
+									<p class="slide__scientific">{ sl.Sighting.Species.ScientificName }</p>
+								}
+								<p>{ seenLine(sl.Sighting) }</p>
+								if sl.Sighting.RecordedBy != "" {
+									<p>Recorded by { sl.Sighting.RecordedBy }.</p>
+								}
+								if sl.Sighting.Remarks != "" {
+									<p class="slide__remarks">{ remarks(sl.Sighting.Remarks) }</p>
+								}
+								<a class="slide__more" href={ templ.URL(SightingURL(sl.Sighting)) } data-morph>Explore { displayName(sl.Sighting.Species) } →</a>
+							</div>
 						</div>
 					</div>
 				</article>

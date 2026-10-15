@@ -1,0 +1,17 @@
+package pages
+
+import (
+	"workshop/internal/domain/sighting"
+	"workshop/web/views/components"
+	"workshop/web/views/layout"
+)
+
+templ Sighting(s sighting.Sighting, all []sighting.Sighting) {
+	@layout.Base(layout.BaseProps{
+		Title:       components.DisplayName(s) + " · Wild Sightings",
+		Description: "A sighting of " + components.DisplayName(s) + ", with where and when it was seen.",
+		Page:        "spotlight",
+	}) {
+		@components.SpotlightView(components.NewSpotlight(s, all))
+	}
+}
