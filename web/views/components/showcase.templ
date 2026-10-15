@@ -60,6 +60,7 @@ templ Showcase(slides []Slide) {
 							<span class="slide__name">{ displayName(sl.Sighting.Species) }</span>
 							<span class="slide__dot" aria-hidden="true"></span>
 						</h2>
+						<div class="slide__body">
 						<p class="slide__year">{ sl.Sighting.HappenedAt.Format("2006") }</p>
 						<div class="slide__text">
 							if sl.Sighting.Species.ScientificName != "" {
@@ -72,6 +73,7 @@ templ Showcase(slides []Slide) {
 							if sl.Sighting.Remarks != "" {
 								<p class="slide__remarks">{ remarks(sl.Sighting.Remarks) }</p>
 							}
+						</div>
 						</div>
 					</div>
 				</article>

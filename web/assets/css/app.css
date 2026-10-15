@@ -550,8 +550,8 @@ body.menu-open .site-header {
 	right: 22%;
 	display: block;
 	overflow: hidden;
-	-webkit-mask-image: radial-gradient(70% 75% at 50% 52%, #000 45%, transparent 100%);
-	mask-image: radial-gradient(70% 75% at 50% 52%, #000 45%, transparent 100%);
+	-webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+	mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
 	opacity: 0;
 	transform: scale(1.12);
 	transition: opacity var(--slide-time) ease, transform calc(var(--slide-time) * 2) var(--ease);
@@ -581,9 +581,9 @@ body.menu-open .site-header {
 .slide__copy {
 	position: absolute;
 	z-index: 4;
-	left: 63%;
+	left: 61%;
 	right: 3%;
-	top: 52%;
+	top: 50%;
 }
 
 .slide__index {
@@ -593,11 +593,10 @@ body.menu-open .site-header {
 }
 
 .slide__title {
-	display: flex;
-	align-items: center;
-	gap: 0.08em;
 	margin: 0 0 0 -0.4em;
+	padding-bottom: 0.08em;
 	overflow: hidden;
+	text-transform: capitalize;
 	font-weight: 800;
 	line-height: 1.05;
 	letter-spacing: -0.02em;
@@ -609,24 +608,23 @@ body.menu-open .site-header {
 }
 
 .slide__title--l {
-	font-size: clamp(2.4rem, 5.6vw, 5.4rem);
+	font-size: clamp(2.2rem, 4.6vw, 4.6rem);
 }
 
 .slide__title--m {
-	font-size: clamp(2rem, 3.8vw, 3.6rem);
-	align-items: flex-end;
+	font-size: clamp(1.8rem, 3.4vw, 3.2rem);
 }
 
 .slide__name,
 .slide__dot {
+	display: inline-block;
 	transform: translateY(110%);
 	transition: transform var(--slide-time) var(--ease);
 }
 
 .slide__dot {
-	flex: none;
-	display: inline-block;
 	width: 0.52em;
+	margin-left: 0.12em;
 	height: 0.52em;
 	border-radius: 50%;
 	background: var(--cobalt);
@@ -643,10 +641,14 @@ body.menu-open .site-header {
 	transition-delay: 380ms;
 }
 
+.slide__body {
+	display: flex;
+	gap: 2rem;
+	margin-top: 1.6rem;
+}
+
 .slide__year {
-	position: absolute;
-	left: 0;
-	top: calc(100% + 2rem);
+	flex: none;
 	margin: 0;
 	writing-mode: vertical-rl;
 	transform: rotate(180deg);
@@ -659,7 +661,6 @@ body.menu-open .site-header {
 
 .slide__text {
 	max-width: 18rem;
-	margin: 2rem 0 0 3.6rem;
 	font-size: 0.8rem;
 	line-height: 1.75;
 	text-shadow: 0 1px 8px rgb(13 10 38 / 0.55);
@@ -967,6 +968,7 @@ body.menu-open .site-header {
 	font-size: 1.15rem;
 	font-weight: 800;
 	line-height: 1.25;
+	text-transform: capitalize;
 }
 
 .tile__dot {
@@ -1168,13 +1170,11 @@ body.menu-open .site-header {
 		font-size: clamp(1.8rem, 8vw, 3rem);
 	}
 
-	.slide__year {
-		top: calc(100% + 1.4rem);
-		left: 1.4rem;
+	.slide__body {
+		gap: 1.2rem;
 	}
 
 	.slide__text {
-		margin-left: 2.6rem;
 		max-width: none;
 	}
 
