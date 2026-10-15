@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"strconv"
 	"workshop/internal/domain/sighting"
 	"workshop/web/views/components"
 	"workshop/web/views/layout"
@@ -8,20 +9,63 @@ import (
 
 templ Home(sightings []sighting.Sighting) {
 	@layout.Base(layout.BaseProps{
-		Title: "Sightings",
+		Title:       "Wild Sightings",
+		Description: "Wildlife sightings from around the world, with the photos their recorders took.",
 	}) {
-		<h1>Sightings</h1>
-		if len(sightings) == 0 {
-			<p>No sightings have been ingested yet.</p>
+		if slides := components.Slides(sightings, 6); len(slides) > 0 {
+			<h1 class="visually-hidden">Wild Sightings</h1>
+			@components.Showcase(slides)
 		} else {
-			<p>Total: { len(sightings) }</p>
-			<ul class="sightings">
-				for _, s := range sightings {
-					<li>
-						@components.SightingCard(s)
-					</li>
+			<section class="stage stage--empty" id="top">
+				<div class="stage__panel" aria-hidden="true"></div>
+				<h1 class="stage__empty-title">Wild Sightings<span class="slide__dot" aria-hidden="true"></span></h1>
+			</section>
+		}
+		<section class="section" id="sightings" aria-labelledby="sightings-title">
+			<header class="section__head reveal">
+				<p class="section__kicker">02</p>
+				<h2 class="section__title" id="sightings-title">Every sighting<span class="slide__dot" aria-hidden="true"></span></h2>
+				if len(sightings) > 0 {
+					@stats(sighting.Summarise(sightings))
 				}
-			</ul>
+			</header>
+			if len(sightings) == 0 {
+				<p class="section__empty">No sightings have been ingested yet.</p>
+			} else {
+				<p class="section__empty" data-search-empty hidden>No sightings match that search.</p>
+				<ul class="tiles" role="list">
+					for i, s := range sightings {
+						<li>
+							@components.SightingCard(s, i)
+						</li>
+					}
+				</ul>
+			}
+		</section>
+		if len(sightings) > 0 {
+			<section class="section section--map" id="map" aria-labelledby="map-title">
+				<header class="section__head reveal">
+					<p class="section__kicker">03</p>
+					<h2 class="section__title" id="map-title">Where they were seen<span class="slide__dot" aria-hidden="true"></span></h2>
+				</header>
+				<div class="reveal">
+					@components.Map(components.MapProps{
+						Points:  components.MapPoints(sightings),
+						Cluster: true,
+						Label:   "Map of where each sighting was recorded",
+						Class:   "map--dark",
+					})
+				</div>
+			</section>
 		}
 	}
+}
+
+templ stats(sum sighting.Summary) {
+	<dl class="stats">
+		<div><dt>Sightings</dt><dd data-count={ strconv.Itoa(sum.Sightings) }>{ strconv.Itoa(sum.Sightings) }</dd></div>
+		<div><dt>Species</dt><dd data-count={ strconv.Itoa(sum.Species) }>{ strconv.Itoa(sum.Species) }</dd></div>
+		<div><dt>Countries</dt><dd data-count={ strconv.Itoa(sum.Countries) }>{ strconv.Itoa(sum.Countries) }</dd></div>
+		<div><dt>Photos</dt><dd data-count={ strconv.Itoa(sum.Media) }>{ strconv.Itoa(sum.Media) }</dd></div>
+	</dl>
 }

@@ -1,0 +1,8 @@
+{
+	"name": "Wild Sightings",
+	"short_name": "Sightings",
+	"icons": [{ "src": "/assets/images/logo.svg", "sizes": "any", "type": "image/svg+xml" }],
+	"theme_color": "#0D0A26",
+	"background_color": "#0D0A26",
+	"display": "standalone"
+}

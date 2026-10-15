@@ -17,7 +17,7 @@ func Home(logger *slog.Logger, sightings SightingsLister) http.HandlerFunc {
 		ctx := r.Context()
 
 		items, err := sightings.List(ctx, sighting.ListFilter{
-			Limit: 50,
+			Limit: 1000,
 		})
 		if err != nil {
 			logger.ErrorContext(ctx, "handlers: listing sightings: "+err.Error())

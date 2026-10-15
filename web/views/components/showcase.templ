@@ -1,0 +1,111 @@
+package components
+
+import "strconv"
+
+templ Showcase(slides []Slide) {
+	<section class="stage" id="top" data-showcase aria-roledescription="carousel" aria-label="Featured sightings">
+		<div class="stage__panel" aria-hidden="true"></div>
+		@pattern()
+		<nav class="stage__nav" aria-label="Choose a featured sighting">
+			<ol>
+				for i := range slides {
+					<li>
+						<button
+							type="button"
+							class={ "stage__num", templ.KV("is-active", i == 0) }
+							data-goto={ strconv.Itoa(i) }
+							aria-label={ "Show sighting " + number(i) }
+							aria-current?={ i == 0 }
+						>{ number(i) }</button>
+					</li>
+				}
+			</ol>
+			<button type="button" class="stage__pause" data-pause aria-pressed="false">
+				<span class="visually-hidden">Pause the slideshow</span>
+			</button>
+		</nav>
+		<a class="stage__down" href="#sightings" aria-label="Scroll down to every sighting">
+			<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v16m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+		</a>
+		<ol class="stage__cards" aria-label="Up next">
+			for i, sl := range slides {
+				<li class="stage__card" data-card data-pos={ strconv.Itoa(i) }>
+					<button type="button" data-goto={ strconv.Itoa(i) } aria-label={ "Show " + displayName(sl.Sighting.Species) }>
+						<span class="stage__card-num">{ number(i) }</span>
+						<span class="stage__card-photo">
+							<img src={ sl.Photo.URL } alt="" loading="lazy"/>
+						</span>
+					</button>
+				</li>
+			}
+		</ol>
+		<div class="stage__slides" aria-live="polite">
+			for i, sl := range slides {
+				<article
+					class={ "slide", templ.KV("is-active", i == 0) }
+					data-slide
+					aria-roledescription="slide"
+					aria-label={ number(i) + " of " + strconv.Itoa(len(slides)) }
+				>
+					<a class="slide__media" href={ templ.URL(sl.Photo.URL) } data-lightbox data-caption={ sl.Photo.Creator }>
+						if i == 0 {
+							<img src={ sl.Photo.URL } alt={ altText(sl.Photo) } fetchpriority="high"/>
+						} else {
+							<img src={ sl.Photo.URL } alt={ altText(sl.Photo) } loading="lazy"/>
+						}
+					</a>
+					<div class="slide__copy">
+						<p class="slide__index">{ number(i) }</p>
+						<h2 class={ "slide__title", titleSize(displayName(sl.Sighting.Species)) }>
+							<span class="slide__name">{ displayName(sl.Sighting.Species) }</span>
+							<span class="slide__dot" aria-hidden="true"></span>
+						</h2>
+						<p class="slide__year">{ sl.Sighting.HappenedAt.Format("2006") }</p>
+						<div class="slide__text">
+							if sl.Sighting.Species.ScientificName != "" {
+								<p class="slide__scientific">{ sl.Sighting.Species.ScientificName }</p>
+							}
+							<p>{ seenLine(sl.Sighting) }</p>
+							if sl.Sighting.RecordedBy != "" {
+								<p>Recorded by { sl.Sighting.RecordedBy }.</p>
+							}
+							if sl.Sighting.Remarks != "" {
+								<p class="slide__remarks">{ remarks(sl.Sighting.Remarks) }</p>
+							}
+						</div>
+					</div>
+				</article>
+			}
+		</div>
+		<div class="stage__controls">
+			<button type="button" data-prev aria-label="Previous sighting">A</button>
+			<span aria-hidden="true">-</span>
+			<button type="button" data-next aria-label="Next sighting">B</button>
+		</div>
+		<div class="stage__mark" aria-hidden="true"><span></span><span></span></div>
+	</section>
+}
+
+templ pattern() {
+	<svg class="stage__pattern" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+		for _, t := range Pattern() {
+			<g transform={ translate(t) }>
+				<rect width="50" height="50" fill={ t.Back }></rect>
+				<g class="tile">
+					<g transform={ rotate(t) }>
+						switch t.Shape {
+							case "quarter":
+								<path d="M0 0H50A50 50 0 0 1 0 50Z" fill={ t.Front }></path>
+							case "half":
+								<path d="M0 0H50A25 25 0 0 1 0 0Z" fill={ t.Front }></path>
+							case "circle":
+								<circle cx="25" cy="25" r="21" fill={ t.Front }></circle>
+							case "leaf":
+								<path d="M0 50V25A25 25 0 0 1 25 0H50V25A25 25 0 0 1 25 50Z" fill={ t.Front }></path>
+						}
+					</g>
+				</g>
+			</g>
+		}
+	</svg>
+}
